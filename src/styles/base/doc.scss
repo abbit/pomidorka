@@ -1,0 +1,20 @@
+%fullscreen {
+	width: 100vw;
+	min-height: 100vh;
+	overflow-x: hidden;
+}
+
+%flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+body {
+	color: $black;
+	background: $bg-color;
+	font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	@extend %fullscreen;
+	font-weight: 400;
+	@include font-smoothing();
+}

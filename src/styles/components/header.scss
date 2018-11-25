@@ -1,0 +1,11 @@
+.header {
+	height: 50px;
+	width: 100%;
+	padding: 0;
+	background: $primary;
+	@extend %flex-center;
+
+	.header__title {
+		color: #fff;
+	}
+}

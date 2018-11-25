@@ -1,0 +1,10 @@
+#app {
+	@extend %fullscreen;
+	display: flex;
+	flex-direction: column;
+}
+
+#content {
+	flex: 1;
+	@extend %flex-center;
+}
