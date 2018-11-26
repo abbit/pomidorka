@@ -1,7 +1,7 @@
 {
   "name": "Wasmer",
   "short_name": "Wasmer",
-  "start_url": "/?homescreen=1",
+  "start_url": "/wasmer/index.html",
   "display": "standalone",
   "background_color": "#fbf9fa",
   "theme_color": "#6900ff",
