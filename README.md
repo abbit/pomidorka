@@ -1,12 +1,13 @@
-# Wasmer🕓
+# Wasmer 🕓
 
-Progressive web app for counting your wasted time.
+A progressive web app for counting your wasted time.
 
 Built with:
+
 - Preact
 - Service Workers
-- love❤️
-
+- Love ❤️
 
 ## Note
-Incorrect work on the mobiles in the background, because of mobile limits.
+
+Works incorrect when runs in the background, will be fixed soon with web workers 👨‍🔧

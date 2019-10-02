@@ -51,4 +51,4 @@ node_modules/
 .env.test
 
 # Dist files
-dist/**/*
+dist/
