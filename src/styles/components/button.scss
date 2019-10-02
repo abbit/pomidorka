@@ -1,7 +1,7 @@
 .button {
 	border: 0;
 	border-radius: 0.25em;
-	background: $secondary;
+	background: var(--secondary-color);
 	color: #fff;
 	font-size: 1.5rem;
 	white-space: nowrap;

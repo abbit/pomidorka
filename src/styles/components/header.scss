@@ -2,7 +2,7 @@
 	height: 50px;
 	width: 100%;
 	padding: 0;
-	background: $primary;
+	background: var(--primary-color);
 	@extend %flex-center;
 
 	.header__title {

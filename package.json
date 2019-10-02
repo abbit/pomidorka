@@ -1,42 +1,66 @@
 {
   "private": true,
   "name": "wasmer",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "license": "MIT",
   "repository": "Abbit/wasmer",
   "author": {
-    "name": "Michael Kopylov",
+    "name": "Mikhail Kopylov",
     "email": "kopylovmichaelfl@gmail.com",
     "url": "https://github.com/Abbit"
   },
   "scripts": {
-    "build": "webpack --env.production --config config/webpack",
+    "build": "webpack --config webpack.prod.js",
     "start": "sirv dist -s",
-    "watch": "webpack-dev-server --config config/webpack"
+    "dev": "webpack-dev-server --open --config webpack.dev.js",
+    "check-types": "tsc"
   },
+  "browserslist": [
+    "last 10 version",
+    "> 1%",
+    "maintained node versions",
+    "not dead"
+  ],
   "dependencies": {
-    "preact": "^8.2.5"
+    "preact": "^10.0.0-rc.3"
   },
   "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-numeric-separator": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.6.0",
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "@typescript-eslint/parser": "^2.3.1",
     "autoprefixer": "^9.6.1",
-    "babel-core": "^6.26.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-react-jsx": "^6.22.0",
-    "babel-preset-babili": "^0.1.4",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-stage-2": "^6.22.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
-    "extract-text-webpack-plugin": "^3.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.5.0",
     "postcss-loader": "^3.0.0",
+    "prettier": "^1.18.2",
     "sass-loader": "^8.0.0",
     "sirv-cli": "^0.4.4",
     "style-loader": "^1.0.0",
-    "sw-precache-webpack-plugin": "^0.11.4",
+    "typescript": "^3.6.3",
     "webpack": "^4.41.0",
-    "webpack-dev-server": "^3.8.1"
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1",
+    "webpack-merge": "^4.2.2",
+    "workbox-webpack-plugin": "^4.3.1"
   }
 }
