@@ -1,42 +1,18 @@
 import { h } from 'preact';
-import { useState, useCallback } from 'preact/hooks';
 import { formatTime } from '../utils';
+import { useTimer } from '../hooks/useTimer';
 
-// const startTimer = (state: any, setState: any) => {
-// 	const timer = setInterval(() => {
-// 		setState({ seconds: state.seconds + 1 });
-
-// 		localStorage.setItem('totalTime', state.seconds);
-// 	}, 1000);
-// };
-
-// const stopTimer = (timer: NodeJS.Timeout) => {
-// 	clearInterval(timer);
-// };
-
-export function Timer() {
-	let initialStateSeconds = 0;
-
-	const totalTime = localStorage.getItem('totalTime');
-
-	if (totalTime) {
-		initialStateSeconds = parseInt(totalTime);
-	}
-
-	const [seconds, setSeconds] = useState(initialStateSeconds);
-
-	const onClick = () => {
-		console.log('lol');
-	};
+export function Timer(): h.JSX.Element {
+	const { seconds, start: startTimer, stop: stopTimer } = useTimer();
 
 	return (
-		<div class="timer-container">
-			<div class="timer">{formatTime(seconds)}</div>
-			<div class="btn-set">
-				<button class="button" onClick={onClick}>
+		<div className="timer-container">
+			<div className="timer">{formatTime(seconds)}</div>
+			<div className="btn-set">
+				<button type="button" className="button" onClick={startTimer}>
 					Start
 				</button>
-				<button class="button" onClick={onClick}>
+				<button type="button" className="button" onClick={stopTimer}>
 					Stop
 				</button>
 			</div>

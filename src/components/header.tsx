@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-export function Header() {
+export function Header(): h.JSX.Element {
 	return (
 		<header className="header">
 			<h1 className="header__title">Wasmer</h1>

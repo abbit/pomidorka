@@ -1,18 +1,19 @@
 /* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { join, resolve } = require('path');
 const { CleanWebpackPlugin: CleanPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 const dist = join(__dirname, 'dist');
 
 module.exports = {
 	entry: {
 		app: './src/index',
-		vendor: ['preact'],
 	},
 	resolve: {
-		extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+		extensions: ['.js', '.json', '.ts', '.tsx'],
 		modules: [resolve(__dirname, 'node_modules'), 'node_modules'],
 	},
 	output: {
@@ -53,7 +54,7 @@ module.exports = {
 					{
 						loader: 'postcss-loader',
 						options: {
-							plugins: [require('autoprefixer')()],
+							plugins: [autoprefixer()],
 						},
 					},
 					{

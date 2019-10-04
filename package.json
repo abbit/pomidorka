@@ -11,9 +11,9 @@
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "start": "sirv dist -s",
+    "serve": "sirv dist -s -m 31536000 -i",
     "dev": "webpack-dev-server --open --config webpack.dev.js",
-    "check-types": "tsc"
+    "lint": "eslint src --ext .js,.ts,.tsx"
   },
   "browserslist": [
     "last 10 version",
@@ -61,6 +61,8 @@
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.1",
     "webpack-merge": "^4.2.2",
-    "workbox-webpack-plugin": "^4.3.1"
+    "workbox-core": "^5.0.0-beta.1",
+    "workbox-precaching": "^5.0.0-beta.1",
+    "workbox-webpack-plugin": "^5.0.0-beta.1"
   }
 }

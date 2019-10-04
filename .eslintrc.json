@@ -1,31 +1,35 @@
 {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "serviceworker": true
     },
-    "extends": [
-        "airbnb",
-        "plugin:@typescript-eslint/recommended",
-        "prettier",
-        "prettier/@typescript-eslint"
-    ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
+        "project": "./tsconfig.json",
         "ecmaVersion": 2018,
         "ecmaFeatures": {
             "jsx": true
         }
     },
-    "plugins": [
-        "babel",
-        "react",
-        "react-hooks",
-        "@typescript-eslint"
+    "extends": [
+        "airbnb",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended",
+        "prettier/@typescript-eslint",
+        "prettier/react",
+        "prettier/standard"
     ],
+    "plugins": ["react", "react-hooks", "@typescript-eslint"],
     "settings": {
         "react": {
             "pragma": "h",
             "version": "preact"
+        },
+        "import/resolver": {
+            "node": {
+                "extensions": [".ts", ".tsx"]
+            }
         }
     },
 
@@ -44,6 +48,13 @@
         "react/jsx-uses-react": 2,
         "react/jsx-uses-vars": 2,
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn"
+        "react-hooks/exhaustive-deps": "warn",
+        "import/prefer-default-export": 0,
+        "react/jsx-filename-extension": [
+            2,
+            {
+                "extensions": [".tsx"]
+            }
+        ]
     }
 }

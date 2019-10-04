@@ -1,11 +1,11 @@
 import { h, RenderableProps } from 'preact';
 import { Header } from './header';
 
-export function Layout(props: RenderableProps<void>) {
+export function Layout({ children }: RenderableProps<void>): h.JSX.Element {
 	return (
 		<div id="app">
 			<Header />
-			<main id="content">{props.children}</main>
+			<main id="content">{children}</main>
 		</div>
 	);
 }
