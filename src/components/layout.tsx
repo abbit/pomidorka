@@ -1,11 +1,34 @@
-import { h, RenderableProps } from 'preact';
+import { h, ComponentChildren } from 'preact';
+import { styled } from 'goober';
 import { Header } from './header';
+import { Mascot } from './mascot';
 
-export function Layout({ children }: RenderableProps<void>): h.JSX.Element {
+interface LayoutProps {
+	children: ComponentChildren;
+}
+
+const Container = styled('div')`
+	width: 100vw;
+	height: 100vh;
+	overflow-x: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
+
+const Main = styled('div')`
+	flex: 1;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+`;
+
+export function Layout({ children }: LayoutProps) {
 	return (
-		<div id="app">
+		<Container>
 			<Header />
-			<main id="content">{children}</main>
-		</div>
+			<Main>{children}</Main>
+		</Container>
 	);
 }

@@ -1,12 +1,11 @@
 {
-  "name": "Wasmer",
-  "short_name": "Wasmer",
+  "name": "Pomidor",
+  "short_name": "Pomidor",
   "start_url": "/?homescreen=1",
   "display": "standalone",
   "background_color": "#fbf9fa",
-  "theme_color": "#6900ff",
-  "icons": [
-    {
+  "theme_color": "#a30f0f",
+  "icons": [{
       "src": "icon/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"

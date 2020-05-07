@@ -1,7 +1,6 @@
-import { render } from 'preact';
+import { render, h } from 'preact';
+import { setPragma } from 'goober';
 import { App } from './app';
-
-import './index.scss';
 
 declare interface NodeModule {
 	hot: {
@@ -18,6 +17,8 @@ function init(): void {
 
 	rootEl.innerHTML = '';
 
+	Notification.requestPermission();
+	setPragma(h);
 	render(App(), rootEl);
 }
 

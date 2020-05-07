@@ -12,10 +12,11 @@ module.exports = merge(commonConfig, {
 	plugins: [new webpack.HotModuleReplacementPlugin()],
 	devServer: {
 		contentBase: dist,
-		port: process.env.PORT || 4000,
+		port: process.env.PORT || 5000,
 		historyApiFallback: true,
 		compress: false,
 		inline: true,
 		hot: true,
+		host: '192.168.0.101',
 	},
 });

@@ -1,9 +1,24 @@
 import { h } from 'preact';
+import { styled } from 'goober';
 
-export function Header(): h.JSX.Element {
+const HeaderContainer = styled('header')`
+	height: 50px;
+	width: 100%;
+	padding: 32px 0;
+	background: var(--primary-color);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
+const Title = styled('h1')`
+	color: #fff;
+`;
+
+export function Header() {
 	return (
-		<header className="header">
-			<h1 className="header__title">Wasmer</h1>
-		</header>
+		<HeaderContainer>
+			<Title>Pomidor</Title>
+		</HeaderContainer>
 	);
 }

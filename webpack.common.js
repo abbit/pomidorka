@@ -71,7 +71,7 @@ module.exports = {
 	},
 	plugins: [
 		new CleanPlugin(),
-		new CopyPlugin([{ context: 'src/static/', from: '**/*.*', to: dist }]),
+		new CopyPlugin([{ context: 'static/', from: '**/*.*', to: dist }]),
 		new HtmlPlugin({ template: './src/index.html' }),
 	],
 	optimization: {
