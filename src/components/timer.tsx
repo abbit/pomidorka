@@ -102,7 +102,7 @@ export function Timer() {
 		stopTimer();
 	};
 
-	if (seconds == 0) {
+	if (seconds <= 0) {
 		switch (state) {
 			case 'activePomodoro': {
 				send('DONE_POMODORO');
@@ -128,7 +128,7 @@ export function Timer() {
 	return (
 		<TimerContainer>
 			<Centered>
-				{seconds == 0 ? (
+				{seconds <= 0 ? (
 					<Mascot
 						message={
 							state == 'startPomodoro'
