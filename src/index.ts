@@ -1,6 +1,5 @@
 import { render, h } from 'preact';
 import { setPragma } from 'goober';
-import { messaging } from './firebase';
 
 import { App } from './app';
 
@@ -27,21 +26,10 @@ function initializeApp() {
 	initializeUI();
 
 	window.addEventListener('load', () => {
-		navigator.serviceWorker.register('./sw.js').then((registration) => {
-			messaging.useServiceWorker(registration);
-
-			navigator.serviceWorker.ready.then(() => {
-				messaging
-					.requestPermission()
-					.then(() => {
-						return messaging.getToken();
-					})
-					.then((token) => {
-						console.log('user token:', token);
-					});
-			});
-		});
+		navigator.serviceWorker.register('./sw.js');
 	});
+
+	Notification.requestPermission();
 }
 
 initializeApp();

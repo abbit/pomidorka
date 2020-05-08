@@ -78,42 +78,41 @@ export function Timer() {
 	const [current, send] = useMachine(machine);
 	const state = current.name;
 
+	const sendEvent = (event: string) => {
+		send(event);
+		analytics.logEvent(event);
+	};
+
 	const startPomodoro = () => {
-		send('START_POMODORO');
-		analytics.logEvent('START_POMODORO');
+		sendEvent('START_POMODORO');
 		startTimer(Mins25);
 	};
 
 	const cancelPomodoro = () => {
-		send('CANCEL_POMODORO');
-		analytics.logEvent('CANCEL_POMODORO');
+		sendEvent('CANCEL_POMODORO');
 		stopTimer();
 	};
 
 	const startBreak = () => {
-		send('START_BREAK');
-		analytics.logEvent('START_BREAK');
+		sendEvent('START_BREAK');
 		startTimer(Mins5);
 	};
 
 	const cancelBreak = () => {
-		send('CANCEL_BREAK');
-		analytics.logEvent('CANCEL_BREAK');
+		sendEvent('CANCEL_BREAK');
 		stopTimer();
 	};
 
 	if (seconds <= 0) {
 		switch (state) {
 			case 'activePomodoro': {
-				send('DONE_POMODORO');
-				analytics.logEvent('DONE_POMODORO');
+				sendEvent('DONE_POMODORO');
 				sendNotification('Done! Its time to take a break!');
 				break;
 			}
 
 			case 'activeBreak': {
-				send('DONE_BREAK');
-				analytics.logEvent('DONE_BREAK');
+				sendEvent('DONE_BREAK');
 				sendNotification('Its time to work!');
 				break;
 			}

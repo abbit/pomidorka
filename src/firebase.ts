@@ -1,5 +1,4 @@
 import * as firebase from 'firebase/app';
-import 'firebase/messaging';
 import 'firebase/analytics';
 
 const firebaseConfig = {
@@ -15,5 +14,4 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export const messaging = firebase.messaging();
 export const analytics = firebase.analytics();

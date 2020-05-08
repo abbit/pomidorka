@@ -8,7 +8,7 @@ const Container = styled('div')`
 	align-items: center;
 `;
 
-const Message = styled('div')`
+const MessageBubble = styled('div')`
 	position: relative;
 	font-size: 20px;
 	padding: 30px 15px 30px 15px;
@@ -58,7 +58,7 @@ interface MascotProps {
 export function Mascot({ message }: MascotProps) {
 	return (
 		<Container>
-			<Message>{message}</Message>
+			<MessageBubble>{message}</MessageBubble>
 			<Img src="/img/tomato.png" alt="cute tomato" />
 		</Container>
 	);
