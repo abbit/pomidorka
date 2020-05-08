@@ -55,6 +55,23 @@ const TimerText = styled('div')`
 	font-weight: 500;
 `;
 
+const sendNotification = (message: string) => {
+	if (Notification.permission == 'granted') {
+		navigator.serviceWorker.getRegistration().then((reg) => {
+			if (!reg) {
+				return;
+			}
+
+			const options: NotificationOptions = {
+				icon: 'img/tomato.png',
+				vibrate: [500],
+			};
+
+			reg.showNotification(message, options);
+		});
+	}
+};
+
 export function Timer() {
 	const { seconds, start: startTimer, stop: stopTimer } = useTimer();
 	const [current, send] = useMachine(machine);
@@ -84,11 +101,13 @@ export function Timer() {
 		switch (state) {
 			case 'activePomodoro': {
 				send('DONE_POMODORO');
+				sendNotification('Done! Its time to take a break!');
 				break;
 			}
 
 			case 'activeBreak': {
 				send('DONE_BREAK');
+				sendNotification('Its time to work!');
 				break;
 			}
 
@@ -97,7 +116,6 @@ export function Timer() {
 		}
 
 		stopTimer();
-		navigator.vibrate([500]);
 	}
 
 	return (

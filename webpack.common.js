@@ -30,9 +30,9 @@ module.exports = {
 					loader: 'babel-loader',
 					options: {
 						presets: [
-							'@babel/env',
-							['@babel/typescript', { jsxPragma: 'h' }],
-							['@babel/react', { jsxPragma: 'h' }],
+							'@babel/preset-env',
+							['@babel/preset-typescript', { jsxPragma: 'h' }],
+							['@babel/preset-react', { jsxPragma: 'h' }],
 						],
 						plugins: [
 							'@babel/proposal-class-properties',

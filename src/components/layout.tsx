@@ -1,7 +1,6 @@
 import { h, ComponentChildren } from 'preact';
 import { styled } from 'goober';
 import { Header } from './header';
-import { Mascot } from './mascot';
 
 interface LayoutProps {
 	children: ComponentChildren;
