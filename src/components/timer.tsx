@@ -2,6 +2,7 @@ import { h } from 'preact';
 import { styled } from 'goober';
 import { createMachine, state, transition } from 'robot3';
 import { useMachine } from 'preact-robot';
+import { analytics } from '../firebase';
 import { Button } from './button';
 import { Mascot } from './mascot';
 import { useTimer } from '../hooks/useTimer';
@@ -79,21 +80,25 @@ export function Timer() {
 
 	const startPomodoro = () => {
 		send('START_POMODORO');
+		analytics.logEvent('START_POMODORO');
 		startTimer(Mins25);
 	};
 
 	const cancelPomodoro = () => {
 		send('CANCEL_POMODORO');
+		analytics.logEvent('CANCEL_POMODORO');
 		stopTimer();
 	};
 
 	const startBreak = () => {
 		send('START_BREAK');
+		analytics.logEvent('START_BREAK');
 		startTimer(Mins5);
 	};
 
 	const cancelBreak = () => {
 		send('CANCEL_BREAK');
+		analytics.logEvent('CANCEL_BREAK');
 		stopTimer();
 	};
 
@@ -101,12 +106,14 @@ export function Timer() {
 		switch (state) {
 			case 'activePomodoro': {
 				send('DONE_POMODORO');
+				analytics.logEvent('DONE_POMODORO');
 				sendNotification('Done! Its time to take a break!');
 				break;
 			}
 
 			case 'activeBreak': {
 				send('DONE_BREAK');
+				analytics.logEvent('DONE_BREAK');
 				sendNotification('Its time to work!');
 				break;
 			}
