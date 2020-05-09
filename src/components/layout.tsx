@@ -12,12 +12,12 @@ const Container = styled('div')`
 	overflow-x: hidden;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 	align-items: center;
 `;
 
 const Main = styled('div')`
 	flex: 1;
-	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;

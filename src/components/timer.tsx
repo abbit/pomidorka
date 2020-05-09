@@ -6,6 +6,7 @@ import { analytics } from '../firebase';
 import { Button } from './button';
 import { Mascot } from './mascot';
 import { useTimer } from '../hooks/useTimer';
+import { sendNotification, playCompleteSound } from '../utils';
 
 const Mins25 = 25 * 60;
 const Mins5 = 5 * 60;
@@ -56,23 +57,6 @@ const TimerText = styled('div')`
 	font-weight: 500;
 `;
 
-const sendNotification = (message: string) => {
-	if (Notification.permission == 'granted') {
-		navigator.serviceWorker.getRegistration().then((reg) => {
-			if (!reg) {
-				return;
-			}
-
-			const options: NotificationOptions = {
-				icon: 'img/tomato.png',
-				vibrate: [500],
-			};
-
-			reg.showNotification(message, options);
-		});
-	}
-};
-
 export function Timer() {
 	const { seconds, start: startTimer, stop: stopTimer } = useTimer();
 	const [current, send] = useMachine(machine);
@@ -103,25 +87,35 @@ export function Timer() {
 		stopTimer();
 	};
 
+	const finishPomodoro = () => {
+		sendEvent('DONE_POMODORO');
+		playCompleteSound();
+		sendNotification('Done! Its time to take a break!');
+		stopTimer();
+	};
+
+	const finishBreak = () => {
+		sendEvent('DONE_BREAK');
+		playCompleteSound();
+		sendNotification('Its time to work!');
+		stopTimer();
+	};
+
 	if (seconds <= 0) {
 		switch (state) {
 			case 'activePomodoro': {
-				sendEvent('DONE_POMODORO');
-				sendNotification('Done! Its time to take a break!');
+				finishPomodoro();
 				break;
 			}
 
 			case 'activeBreak': {
-				sendEvent('DONE_BREAK');
-				sendNotification('Its time to work!');
+				finishBreak();
 				break;
 			}
 
 			default:
 				break;
 		}
-
-		stopTimer();
 	}
 
 	return (

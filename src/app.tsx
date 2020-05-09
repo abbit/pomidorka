@@ -1,9 +1,9 @@
 import { h } from 'preact';
-import { glob } from 'goober';
+import { glob as injectGlobal } from 'goober';
 import { Layout } from './components/layout';
 import { Timer } from './components/timer';
 
-glob`
+injectGlobal`
 	:root {
 		--black: #2b2024;
 		--bg-color: #fbf9fa;
