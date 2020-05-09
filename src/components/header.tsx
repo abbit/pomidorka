@@ -18,7 +18,7 @@ const Title = styled('h1')`
 export function Header() {
 	return (
 		<HeaderContainer>
-			<Title>Pomidor</Title>
+			<Title>Pomidorka</Title>
 		</HeaderContainer>
 	);
 }

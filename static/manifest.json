@@ -1,6 +1,6 @@
 {
-  "name": "Pomidor",
-  "short_name": "Pomidor",
+  "name": "Pomidorka",
+  "short_name": "Pomidorka",
   "start_url": "/?homescreen=1",
   "display": "standalone",
   "background_color": "#fbf9fa",
