@@ -25,11 +25,9 @@ function initializeUI() {
 function initializeApp() {
 	initializeUI();
 
-	if (process.env.NODE_ENV === 'production') {
-		window.addEventListener('load', () => {
-			navigator.serviceWorker.register('./sw.js');
-		});
-	}
+	window.addEventListener('load', () => {
+		navigator.serviceWorker.register('./sw.js');
+	});
 
 	Notification.requestPermission();
 }

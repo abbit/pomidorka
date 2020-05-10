@@ -15,8 +15,10 @@ interface WorkboxServiceWorker extends ServiceWorkerGlobalScope {
 core.skipWaiting();
 core.clientsClaim();
 
-// eslint-disable-next-line no-underscore-dangle
-precaching.precacheAndRoute(self.__WB_MANIFEST);
+if (process.env.NODE_ENV === 'production') {
+	// eslint-disable-next-line no-underscore-dangle
+	precaching.precacheAndRoute(self.__WB_MANIFEST);
+}
 
 self.addEventListener('fetch', (event) => {
 	event.respondWith(

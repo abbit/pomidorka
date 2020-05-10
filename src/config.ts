@@ -17,7 +17,7 @@ const soundUrls = {
 };
 
 export const appConfig = {
-	tomatoImg: '/img/tomato.png',
+	tomatoImg: '/img/tomato.webp',
 	firebaseConfig,
 	soundUrls,
 };

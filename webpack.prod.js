@@ -3,14 +3,27 @@
 const merge = require('webpack-merge');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const commonConfig = require('./webpack.common.js');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = merge(commonConfig, {
 	mode: 'production',
-	devtool: 'source-map',
+	devtool: '',
+	optimization: {
+		splitChunks: {
+			cacheGroups: {
+				commons: {
+					test: /[\\/]node_modules[\\/]/,
+					name: 'vendors',
+					chunks: 'all',
+				},
+			},
+		},
+	},
 	plugins: [
 		new WorkboxPlugin.InjectManifest({
 			swSrc: './src/service_worker.ts',
 			swDest: 'sw.js',
 		}),
+		new BundleAnalyzerPlugin(),
 	],
 });
