@@ -1,9 +1,9 @@
 {
 	"private": true,
 	"name": "pomidorka",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"license": "MIT",
-	"repository": "Abbit/pomidor",
+	"repository": "Abbit/pomidorka",
 	"author": {
 		"name": "Mikhail Kopylov",
 		"email": "kopylovmichaelfl@gmail.com",
@@ -11,9 +11,8 @@
 	},
 	"scripts": {
 		"build": "webpack --config webpack.prod.js",
-		"serve": "sirv dist -s -m 31536000 -i",
 		"dev": "webpack-dev-server --open --config webpack.dev.js",
-		"lint": "eslint src --ext .js,.ts,.tsx"
+		"lint": "eslint src --ext .ts,.tsx"
 	},
 	"browserslist": [
 		"last 10 version",
