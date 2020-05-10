@@ -1,4 +1,5 @@
-import { h } from 'preact';
+import { h, FunctionalComponent } from 'preact';
+import { useSelector } from '@preact-hooks/unistore';
 import { styled } from 'goober';
 import { createMachine, state, transition } from 'robot3';
 import { useMachine } from 'preact-robot';
@@ -6,10 +7,8 @@ import { analytics } from '../firebase';
 import { Button } from './button';
 import { Mascot } from './mascot';
 import { useTimer } from '../hooks/useTimer';
-import { sendNotification, playCompleteSound } from '../utils';
-
-const Mins25 = 25 * 60;
-const Mins5 = 5 * 60;
+import { sendNotification, playSound } from '../utils';
+import { State } from '../store';
 
 const machine = createMachine({
 	startPomodoro: state(transition('START_POMODORO', 'activePomodoro')),
@@ -57,19 +56,41 @@ const TimerText = styled('div')`
 	font-weight: 500;
 `;
 
-export function Timer() {
+interface Selected {
+	pomodoroDurationMins: number;
+	breakDurationMins: number;
+	soundVolume: number;
+	soundUrl: string;
+}
+
+const selector = ({ settings }: State): Selected => ({
+	...settings,
+});
+
+export const Timer: FunctionalComponent = () => {
 	const { seconds, start: startTimer, stop: stopTimer } = useTimer();
 	const [current, send] = useMachine(machine);
+	const { pomodoroDurationMins, breakDurationMins, soundUrl, soundVolume } = useSelector<
+		State,
+		Selected
+	>(selector);
 	const state = current.name;
+
+	const pomodoroDurationSecs = pomodoroDurationMins * 60;
+	const breakDurationSecs = breakDurationMins * 60;
 
 	const sendEvent = (event: string) => {
 		send(event);
 		analytics.logEvent(event);
 	};
 
+	const playCompleteSound = () => {
+		playSound(soundUrl, soundVolume);
+	};
+
 	const startPomodoro = () => {
 		sendEvent('START_POMODORO');
-		startTimer(Mins25);
+		startTimer(pomodoroDurationSecs);
 	};
 
 	const cancelPomodoro = () => {
@@ -79,7 +100,7 @@ export function Timer() {
 
 	const startBreak = () => {
 		sendEvent('START_BREAK');
-		startTimer(Mins5);
+		startTimer(breakDurationSecs);
 	};
 
 	const cancelBreak = () => {
@@ -135,25 +156,25 @@ export function Timer() {
 			</Centered>
 
 			{state == 'startPomodoro' && (
-				<Button type="button" onClick={startPomodoro}>
+				<Button style="large" type="button" onClick={startPomodoro}>
 					Start Pomodoro
 				</Button>
 			)}
 			{state == 'activePomodoro' && (
-				<Button type="button" onClick={cancelPomodoro}>
+				<Button style="large" type="button" onClick={cancelPomodoro}>
 					Cancel Pomodoro
 				</Button>
 			)}
 			{state == 'startBreak' && (
-				<Button type="button" onClick={startBreak}>
+				<Button style="large" type="button" onClick={startBreak}>
 					Start Break
 				</Button>
 			)}
 			{state == 'activeBreak' && (
-				<Button type="button" onClick={cancelBreak}>
+				<Button style="large" type="button" onClick={cancelBreak}>
 					Cancel Break
 				</Button>
 			)}
 		</TimerContainer>
 	);
-}
+};

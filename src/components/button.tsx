@@ -1,15 +1,27 @@
 import { h } from 'preact';
 import { styled } from 'goober';
 
-export const Button = styled<h.JSX.HTMLAttributes<HTMLButtonElement>>('button')`
+type ButtonStyle = 'large' | 'default';
+
+interface ButtonProps extends h.JSX.HTMLAttributes<HTMLButtonElement> {
+	style?: ButtonStyle;
+}
+
+export const Button = styled<ButtonProps>('button')`
 	border: 0;
 	border-radius: 0.25em;
 	background: var(--secondary-color);
 	color: #fff;
-	font-size: 1.5rem;
+	font-size: ${(props) => (props.style === 'large' ? 1.5 : 1.2)}rem;
 	white-space: nowrap;
 	text-decoration: none;
-	padding: 1.5em 2.2em;
+	padding: ${(props) => (props.style === 'large' ? '1.5em 2.2em' : '0.5em 1em')};
 	cursor: pointer;
-	min-width: 250px;
+	min-width: ${(props) => (props.style === 'large' ? 250 : 100)}px;
+
+	@media screen and (max-width: 700px) {
+		font-size: ${(props) => (props.style === 'large' ? 1.5 : 1.3)}rem;
+		padding: ${(props) => (props.style === 'large' ? '1.5em 2.2em' : '1em')};
+		min-width: ${(props) => (props.style === 'large' ? 300 : 200)}px;
+	}
 `;

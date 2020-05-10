@@ -1,12 +1,14 @@
-export const sendNotification = (message: string) => {
-	if (Notification.permission == 'granted') {
+import { appConfig } from './config';
+
+export const sendNotification = (message: string): void => {
+	if (Notification.permission === 'granted') {
 		navigator.serviceWorker.getRegistration().then((reg) => {
 			if (!reg) {
 				return;
 			}
 
 			const options: NotificationOptions = {
-				icon: 'img/tomato.png',
+				icon: appConfig.tomatoImg,
 				vibrate: [500],
 			};
 
@@ -15,7 +17,11 @@ export const sendNotification = (message: string) => {
 	}
 };
 
-export const playCompleteSound = () => {
-	const sound = new Audio('sounds/4.mp3');
+export const playSound = (soundUrl: string, volume: number): void => {
+	const sound = new Audio(soundUrl);
+	sound.volume = volume / 100;
 	sound.play();
 };
+
+export const isObjectsEqual = (a: object, b: object): boolean =>
+	JSON.stringify(a) === JSON.stringify(b);

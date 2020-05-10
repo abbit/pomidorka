@@ -52,6 +52,7 @@ node_modules/
 
 # Dist files
 dist/
+old_site/
 
 # Firebase cache
 .firebase/

@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as precaching from 'workbox-precaching';
 import * as core from 'workbox-core';
-import * as firebase from 'firebase/app';
 
 declare let self: WorkboxServiceWorker;
 

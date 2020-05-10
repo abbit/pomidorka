@@ -1,4 +1,4 @@
-import { h, ComponentChildren } from 'preact';
+import { h, ComponentChildren, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
 import { Header } from './header';
 
@@ -23,11 +23,11 @@ const Main = styled('div')`
 	align-items: flex-start;
 `;
 
-export function Layout({ children }: LayoutProps) {
+export const Layout: FunctionalComponent<LayoutProps> = ({ children }) => {
 	return (
 		<Container>
 			<Header />
 			<Main>{children}</Main>
 		</Container>
 	);
-}
+};

@@ -19,15 +19,17 @@ function initializeUI() {
 
 	rootEl.innerHTML = '';
 
-	render(App(), rootEl);
+	render(App({}), rootEl);
 }
 
 function initializeApp() {
 	initializeUI();
 
-	window.addEventListener('load', () => {
-		navigator.serviceWorker.register('./sw.js');
-	});
+	if (process.env.NODE_ENV === 'production') {
+		window.addEventListener('load', () => {
+			navigator.serviceWorker.register('./sw.js');
+		});
+	}
 
 	Notification.requestPermission();
 }

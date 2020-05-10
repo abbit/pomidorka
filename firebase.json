@@ -1,15 +1,20 @@
 {
-  "hosting": {
-    "site": "pomidorka",
-    "public": "dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [{
-      "source": "**",
-      "destination": "/index.html"
-    }]
-  }
+  "hosting": [{
+      "site": "pomidorka",
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [{
+        "source": "**",
+        "destination": "/index.html"
+      }]
+    },
+    {
+      "target": "old",
+      "public": "old_site"
+    }
+  ]
 }

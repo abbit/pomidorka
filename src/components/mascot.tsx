@@ -1,5 +1,6 @@
-import { h } from 'preact';
+import { h, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
+import { appConfig } from '../config';
 
 const Container = styled('div')`
 	display: flex;
@@ -55,11 +56,11 @@ interface MascotProps {
 	message: string;
 }
 
-export function Mascot({ message }: MascotProps) {
+export const Mascot: FunctionalComponent<MascotProps> = ({ message }) => {
 	return (
 		<Container>
 			<MessageBubble>{message}</MessageBubble>
-			<Img src="/img/tomato.png" alt="cute tomato" />
+			<Img src={appConfig.tomatoImg} alt="cute tomato" />
 		</Container>
 	);
-}
+};
