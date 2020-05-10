@@ -15,6 +15,7 @@ module.exports = merge(commonConfig, {
 		new WorkboxPlugin.InjectManifest({
 			swSrc: './src/service_worker.ts',
 			swDest: 'sw.js',
+			exclude: [/\.*$/],
 		}),
 	],
 	devServer: {

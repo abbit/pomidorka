@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import * as precaching from 'workbox-precaching';
 import * as core from 'workbox-core';
+import * as precaching from 'workbox-precaching';
 
 declare let self: WorkboxServiceWorker;
 
@@ -15,10 +15,8 @@ interface WorkboxServiceWorker extends ServiceWorkerGlobalScope {
 core.skipWaiting();
 core.clientsClaim();
 
-if (process.env.NODE_ENV === 'production') {
-	// eslint-disable-next-line no-underscore-dangle
-	precaching.precacheAndRoute(self.__WB_MANIFEST);
-}
+// eslint-disable-next-line no-underscore-dangle
+precaching.precacheAndRoute(self.__WB_MANIFEST);
 
 self.addEventListener('fetch', (event) => {
 	event.respondWith(

@@ -10,6 +10,10 @@ const StyledInput = styled<h.JSX.HTMLAttributes<HTMLInputElement>>('input')`
 	border-radius: 0.5em;
 	font-size: 1rem;
 
+	@media screen and (max-width: 360px) {
+		padding: 10px;
+	}
+
 	&:focus {
 		border-color: var(--gray);
 		outline: none;

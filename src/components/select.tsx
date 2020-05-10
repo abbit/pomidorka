@@ -33,6 +33,10 @@ const StyledSelect = styled<h.JSX.HTMLAttributes<HTMLSelectElement>>('select')`
 	background-repeat: no-repeat, repeat;
 	background-position: right 0.7em top 50%, 0 0;
 	background-size: 0.65em auto, 100%;
+	
+	@media screen and (max-width: 360px) {
+		padding: 10px;
+	}
 
 	&::-ms-expand {
 		display: none;

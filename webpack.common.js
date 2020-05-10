@@ -4,7 +4,6 @@ const { join, resolve } = require('path');
 const { CleanWebpackPlugin: CleanPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 
 const dist = join(__dirname, 'dist');
 
@@ -41,31 +40,6 @@ module.exports = {
 						],
 					},
 				},
-			},
-			{
-				test: /\.(sass|scss)$/,
-				use: [
-					{
-						loader: 'style-loader',
-					},
-					{
-						loader: 'css-loader',
-					},
-					{
-						loader: 'postcss-loader',
-						options: {
-							plugins: [autoprefixer()],
-						},
-					},
-					{
-						loader: 'sass-loader',
-						options: {
-							sassOptions: {
-								includePaths: [join(__dirname, 'src')],
-							},
-						},
-					},
-				],
 			},
 			{
 				test: /\.svg$/,

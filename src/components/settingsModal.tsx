@@ -53,6 +53,7 @@ const Container = styled('div')`
 		width: 100vw;
 		height: 100vh;
 		padding: 24px 16px;
+		padding-bottom: 32px;
 	}
 `;
 
@@ -60,6 +61,10 @@ const Title = styled('h2')``;
 
 const SettingTitle = styled('h3')`
 	margin-bottom: 8px;
+
+	@media screen and (max-width: 700px) {
+		font-size: 1.15rem;
+	}
 `;
 
 const SettingBody = styled('div')`
@@ -77,10 +82,22 @@ const Setting = styled('div')`
 
 	&:first-child {
 		padding-top: 32px;
+
+		@media screen and (max-width: 360px) {
+			padding-top: 16px;
+		}
 	}
 
 	&:last-child {
 		padding-bottom: 32px;
+
+		@media screen and (max-width: 360px) {
+			padding-bottom: 16px;
+		}
+	}
+
+	@media screen and (max-width: 360px) {
+		padding: 8px;
 	}
 `;
 
