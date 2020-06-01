@@ -18,6 +18,7 @@ const soundUrls = {
 
 export const appConfig = {
 	tomatoImg: '/img/tomato.webp',
+	appIcon: '/icon/android-chrome-192x192.png',
 	firebaseConfig,
 	soundUrls,
 };

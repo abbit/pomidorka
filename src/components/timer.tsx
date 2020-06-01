@@ -172,7 +172,7 @@ export const Timer: FunctionalComponent = () => {
 			)}
 			{state == 'activeBreak' && (
 				<Button style="large" type="button" onClick={cancelBreak}>
-					Cancel Break
+					Skip Break
 				</Button>
 			)}
 		</TimerContainer>

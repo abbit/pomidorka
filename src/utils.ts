@@ -10,6 +10,7 @@ export const sendNotification = (message: string): void => {
 			const options: NotificationOptions = {
 				icon: appConfig.tomatoImg,
 				vibrate: [500],
+				badge: appConfig.appIcon,
 			};
 
 			reg.showNotification(message, options);

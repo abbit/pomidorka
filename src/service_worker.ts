@@ -25,3 +25,30 @@ self.addEventListener('fetch', (event) => {
 		}),
 	);
 });
+
+self.addEventListener('notificationclick', function (event) {
+	event.notification.close();
+
+	// This looks to see if the current is already open and
+	// focuses if it is
+	event.waitUntil(
+		self.clients
+			.matchAll({
+				type: 'window',
+				includeUncontrolled: true,
+			})
+			.then((windowClients) => {
+				let matchingClient: WindowClient | undefined = undefined;
+
+				for (let i = 0; i < windowClients.length; i++) {
+					const windowClient = windowClients[i];
+					matchingClient = windowClient as WindowClient;
+					break;
+				}
+
+				if (matchingClient) {
+					return matchingClient.focus();
+				}
+			}),
+	);
+});
