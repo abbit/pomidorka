@@ -1,4 +1,4 @@
-import { appConfig } from './config';
+import { appConfig } from '../config';
 
 export const sendNotification = (message: string): void => {
 	if (Notification.permission === 'granted') {
@@ -17,12 +17,3 @@ export const sendNotification = (message: string): void => {
 		});
 	}
 };
-
-export const playSound = (soundUrl: string, volume: number): void => {
-	const sound = new Audio(soundUrl);
-	sound.volume = volume / 100;
-	sound.play();
-};
-
-export const isObjectsEqual = (a: object, b: object): boolean =>
-	JSON.stringify(a) === JSON.stringify(b);

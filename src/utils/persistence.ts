@@ -5,14 +5,21 @@ interface Persistence<T> {
 	delete(): void;
 }
 
-export function createPersistence<T>(name: string, placeholder?: T): Persistence<T> {
+export function createPersistence<T>(
+	name: string,
+	timeout?: number,
+	placeholder?: T,
+): Persistence<T> {
 	const storage = window.localStorage;
+
+	const isExpired = (): boolean => timeout !== undefined && Date.now() > timeout;
 
 	return {
 		set: (value) => {
 			const state = JSON.stringify({
 				value,
 			});
+
 			storage.setItem(name, state);
 		},
 

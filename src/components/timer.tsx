@@ -3,11 +3,12 @@ import { useSelector } from '@preact-hooks/unistore';
 import { styled } from 'goober';
 import { createMachine, state, transition } from 'robot3';
 import { useMachine } from 'preact-robot';
-import { analytics } from '../firebase';
-import { Button } from './button';
+import { analytics } from '../config/firebase';
+import { Button, ButtonStyle } from './button';
 import { Mascot } from './mascot';
 import { useTimer } from '../hooks/useTimer';
-import { sendNotification, playSound } from '../utils';
+import { playSound } from '../utils';
+import { sendNotification } from '../utils/notifications';
 import { State } from '../store';
 
 const machine = createMachine({
@@ -156,22 +157,22 @@ export const Timer: FunctionalComponent = () => {
 			</Centered>
 
 			{state == 'startPomodoro' && (
-				<Button style="large" type="button" onClick={startPomodoro}>
+				<Button style={ButtonStyle.Large} type="button" onClick={startPomodoro}>
 					Start Pomodoro
 				</Button>
 			)}
 			{state == 'activePomodoro' && (
-				<Button style="large" type="button" onClick={cancelPomodoro}>
+				<Button style={ButtonStyle.Large} type="button" onClick={cancelPomodoro}>
 					Cancel Pomodoro
 				</Button>
 			)}
 			{state == 'startBreak' && (
-				<Button style="large" type="button" onClick={startBreak}>
+				<Button style={ButtonStyle.Large} type="button" onClick={startBreak}>
 					Start Break
 				</Button>
 			)}
 			{state == 'activeBreak' && (
-				<Button style="large" type="button" onClick={cancelBreak}>
+				<Button style={ButtonStyle.Large} type="button" onClick={cancelBreak}>
 					Skip Break
 				</Button>
 			)}

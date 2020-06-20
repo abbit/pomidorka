@@ -1,8 +1,8 @@
 import createStore from 'unistore';
 import devtools from 'unistore/devtools';
-import { createPersistence } from './persistence';
-import { isObjectsEqual } from './utils';
-import { appConfig } from './config';
+import { createPersistence } from '../utils/persistence';
+import { isObjectsEqual } from '../utils';
+import { appConfig } from '../config';
 
 export interface Settings {
 	soundVolume: number;

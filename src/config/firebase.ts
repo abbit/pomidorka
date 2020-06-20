@@ -1,3 +1,7 @@
+import * as firebase from 'firebase/app';
+import 'firebase/analytics';
+import 'firebase/performance';
+
 const firebaseConfig = {
 	apiKey: 'AIzaSyCGOlpW8vZzOeoD3C321Teo1ZOK26-6w1M',
 	authDomain: 'pomidor-5b2ed.firebaseapp.com',
@@ -9,16 +13,7 @@ const firebaseConfig = {
 	measurementId: 'G-VLTWQPBBZW',
 };
 
-const soundUrls = {
-	default: 'sounds/1.mp3',
-	alternative: 'sounds/2.mp3',
-	alternative2: 'sounds/3.mp3',
-	rofl: 'sounds/4.mp3',
-};
+firebase.initializeApp(firebaseConfig);
 
-export const appConfig = {
-	tomatoImg: '/img/tomato.webp',
-	appIcon: '/icon/android-chrome-192x192.png',
-	firebaseConfig,
-	soundUrls,
-};
+export const analytics = firebase.analytics();
+const performance = firebase.performance();

@@ -11,7 +11,7 @@ import {
 	setPomodoroDurationAction,
 	setBreakDurationAction,
 	setSoundAction,
-} from '../actions';
+} from '../store/actions';
 import { State, Settings } from '../store';
 import { playSound } from '../utils';
 import { appConfig } from '../config';
