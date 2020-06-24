@@ -1,6 +1,6 @@
 import createStore from 'unistore';
 import devtools from 'unistore/devtools';
-import { createPersistence } from '../utils/persistence';
+import { Persist } from '../utils/persist';
 import { isObjectsEqual } from '../utils';
 import { appConfig } from '../config';
 
@@ -26,17 +26,9 @@ const defaultSettings: Settings = {
 	breakDurationMins: mins5,
 };
 
-const savedSettings = createPersistence<Settings>('settings');
+const persistedSettings = new Persist<Settings>('settings', defaultSettings);
 
-if (!savedSettings.has()) {
-	savedSettings.set(defaultSettings);
-}
-
-let settings = savedSettings.get();
-
-if (!settings) {
-	settings = defaultSettings;
-}
+const settings = persistedSettings.get()!;
 
 const initialState: State = {
 	settings,
@@ -49,13 +41,12 @@ export const store =
 		: devtools(createStore<State>(initialState));
 
 store.subscribe(({ settings }) => {
-	const saved = savedSettings.get();
-
-	if (!saved) {
+	const settingsSaved = persistedSettings.get();
+	if (!settingsSaved) {
 		return;
 	}
 
-	if (!isObjectsEqual(settings, saved)) {
-		savedSettings.set(settings);
+	if (!isObjectsEqual(settings, settingsSaved)) {
+		persistedSettings.set(settings);
 	}
 });
