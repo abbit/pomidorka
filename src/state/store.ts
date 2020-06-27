@@ -1,6 +1,6 @@
 import createStore from 'unistore';
 import devtools from 'unistore/devtools';
-import { Persist } from '../utils/persist';
+import { Persist, ExpiredPersist } from '../utils/persist';
 import { isObjectsEqual } from '../utils';
 import { appConfig } from '../config';
 
@@ -12,6 +12,7 @@ export interface Settings {
 }
 
 export interface State {
+	pomodoroCount: number;
 	settings: Settings;
 	isSettingsOpen: boolean;
 }
@@ -26,12 +27,22 @@ const defaultSettings: Settings = {
 	breakDurationMins: mins5,
 };
 
+const endOfDay = new Date();
+endOfDay.setHours(23, 59, 59, 999);
+
 const persistedSettings = new Persist<Settings>('settings', defaultSettings);
+const persistedPomodoroCount = new ExpiredPersist<number>(
+	'pomodoroCount',
+	endOfDay.getTime(),
+	0,
+);
 
 const settings = persistedSettings.get()!;
+const pomodoroCount = persistedPomodoroCount.get()!;
 
 const initialState: State = {
 	settings,
+	pomodoroCount,
 	isSettingsOpen: false,
 };
 
@@ -48,5 +59,16 @@ store.subscribe(({ settings }) => {
 
 	if (!isObjectsEqual(settings, settingsSaved)) {
 		persistedSettings.set(settings);
+	}
+});
+
+store.subscribe(({ pomodoroCount }) => {
+	const pomodoroCountSaved = persistedPomodoroCount.get();
+	if (pomodoroCountSaved === undefined) {
+		return;
+	}
+
+	if (pomodoroCount !== pomodoroCountSaved) {
+		persistedPomodoroCount.set(pomodoroCount);
 	}
 });

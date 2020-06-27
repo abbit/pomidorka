@@ -4,7 +4,7 @@ import { StoreProvider } from '@preact-hooks/unistore';
 import { Layout } from './components/layout';
 import { Timer } from './components/timer';
 import { SettingsModal } from './components/settingsModal';
-import { store } from './store';
+import { store } from './state/store';
 
 injectGlobal`
 	:root {
@@ -40,9 +40,7 @@ injectGlobal`
 export const App: FunctionalComponent = () => {
 	return (
 		<StoreProvider value={store}>
-			<Layout>
-				<Timer />
-			</Layout>
+			<Layout />
 			<SettingsModal />
 		</StoreProvider>
 	);

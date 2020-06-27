@@ -1,181 +1,37 @@
 import { h, FunctionalComponent } from 'preact';
-import { useSelector } from '@preact-hooks/unistore';
 import { styled } from 'goober';
-import { createMachine, state, transition } from 'robot3';
-import { useMachine } from 'preact-robot';
-import { analytics } from '../config/firebase';
-import { Button, ButtonStyle } from './button';
-import { Mascot } from './mascot';
 import { useTimer } from '../hooks/useTimer';
-import { playSound } from '../utils';
-import { sendNotification } from '../utils/notifications';
-import { State } from '../store';
-
-const machine = createMachine({
-	startPomodoro: state(transition('START_POMODORO', 'activePomodoro')),
-	activePomodoro: state(
-		transition('CANCEL_POMODORO', 'startPomodoro'),
-		transition('DONE_POMODORO', 'startBreak'),
-	),
-	startBreak: state(transition('START_BREAK', 'activeBreak')),
-	activeBreak: state(
-		transition('CANCEL_BREAK', 'startPomodoro'),
-		transition('DONE_BREAK', 'startPomodoro'),
-	),
-});
-
-function formatTimeDigits(num: number): string {
-	return `${num < 10 ? '0' : ''}${num}`;
-}
-
-function formatTime(total: number): string {
-	const secs = total % 60;
-	const mins = (total - secs) / 60;
-	const hours = Math.floor(total / 3600);
-
-	return `${formatTimeDigits(hours)}:${formatTimeDigits(mins)}:${formatTimeDigits(secs)}`;
-}
-
-const TimerContainer = styled('div')`
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	align-items: center;
-	padding-bottom: 4em;
-`;
-
-const Centered = styled('div')`
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`;
+import { formatTime } from '../utils/time';
+import { useEffect, useState } from 'preact/hooks';
 
 const TimerText = styled('div')`
 	font-size: 5rem;
 	font-weight: 500;
 `;
 
-interface Selected {
-	pomodoroDurationMins: number;
-	breakDurationMins: number;
-	soundVolume: number;
-	soundUrl: string;
+interface TimerProps {
+	initialSeconds: number;
+	callback?: Function;
 }
 
-const selector = ({ settings }: State): Selected => ({
-	...settings,
-});
+export const Timer: FunctionalComponent<TimerProps> = ({ initialSeconds, callback }) => {
+	const { seconds: currentSeconds, start: startTimer } = useTimer();
+	const [isTimerStarted, setIsTimerStarted] = useState(false);
 
-export const Timer: FunctionalComponent = () => {
-	const { seconds, start: startTimer, stop: stopTimer } = useTimer();
-	const [current, send] = useMachine(machine);
-	const { pomodoroDurationMins, breakDurationMins, soundUrl, soundVolume } = useSelector<
-		State,
-		Selected
-	>(selector);
-	const state = current.name;
+	useEffect(() => {
+		const stopTimer = startTimer(initialSeconds);
+		setIsTimerStarted(true);
 
-	const pomodoroDurationSecs = pomodoroDurationMins * 60;
-	const breakDurationSecs = breakDurationMins * 60;
+		return () => {
+			stopTimer();
+		};
+	}, []);
 
-	const sendEvent = (event: string) => {
-		send(event);
-		analytics.logEvent(event);
-	};
-
-	const playCompleteSound = () => {
-		playSound(soundUrl, soundVolume);
-	};
-
-	const startPomodoro = () => {
-		sendEvent('START_POMODORO');
-		startTimer(pomodoroDurationSecs);
-	};
-
-	const cancelPomodoro = () => {
-		sendEvent('CANCEL_POMODORO');
-		stopTimer();
-	};
-
-	const startBreak = () => {
-		sendEvent('START_BREAK');
-		startTimer(breakDurationSecs);
-	};
-
-	const cancelBreak = () => {
-		sendEvent('CANCEL_BREAK');
-		stopTimer();
-	};
-
-	const finishPomodoro = () => {
-		sendEvent('DONE_POMODORO');
-		playCompleteSound();
-		sendNotification('Done! Its time to take a break!');
-		stopTimer();
-	};
-
-	const finishBreak = () => {
-		sendEvent('DONE_BREAK');
-		playCompleteSound();
-		sendNotification('Its time to work!');
-		stopTimer();
-	};
-
-	if (seconds <= 0) {
-		switch (state) {
-			case 'activePomodoro': {
-				finishPomodoro();
-				break;
-			}
-
-			case 'activeBreak': {
-				finishBreak();
-				break;
-			}
-
-			default:
-				break;
+	if (isTimerStarted && currentSeconds <= 0) {
+		if (callback !== undefined) {
+			callback();
 		}
 	}
 
-	return (
-		<TimerContainer>
-			<Centered>
-				{seconds <= 0 ? (
-					<Mascot
-						message={
-							state == 'startPomodoro'
-								? "It's time to work!"
-								: "It's time to take a break!"
-						}
-					/>
-				) : (
-					<TimerText>{formatTime(seconds)}</TimerText>
-				)}
-			</Centered>
-
-			{state == 'startPomodoro' && (
-				<Button style={ButtonStyle.Large} type="button" onClick={startPomodoro}>
-					Start Pomodoro
-				</Button>
-			)}
-			{state == 'activePomodoro' && (
-				<Button style={ButtonStyle.Large} type="button" onClick={cancelPomodoro}>
-					Cancel Pomodoro
-				</Button>
-			)}
-			{state == 'startBreak' && (
-				<Button style={ButtonStyle.Large} type="button" onClick={startBreak}>
-					Start Break
-				</Button>
-			)}
-			{state == 'activeBreak' && (
-				<Button style={ButtonStyle.Large} type="button" onClick={cancelBreak}>
-					Skip Break
-				</Button>
-			)}
-		</TimerContainer>
-	);
+	return <TimerText>{formatTime(currentSeconds)}</TimerText>;
 };

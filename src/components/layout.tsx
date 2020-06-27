@@ -1,10 +1,7 @@
-import { h, ComponentChildren, FunctionalComponent } from 'preact';
+import { h, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
 import { Header } from './header';
-
-interface LayoutProps {
-	children: ComponentChildren;
-}
+import { Content } from './content';
 
 const Container = styled('div')`
 	width: 100vw;
@@ -16,18 +13,11 @@ const Container = styled('div')`
 	align-items: center;
 `;
 
-const Main = styled('div')`
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-`;
-
-export const Layout: FunctionalComponent<LayoutProps> = ({ children }) => {
+export const Layout: FunctionalComponent = () => {
 	return (
 		<Container>
 			<Header />
-			<Main>{children}</Main>
+			<Content />
 		</Container>
 	);
 };

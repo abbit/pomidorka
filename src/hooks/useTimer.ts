@@ -16,26 +16,26 @@ function startTimer(initialSeconds: number, callback: (seconds: number) => void)
 
 export function useTimer(): {
 	seconds: number;
-	start: (initialSeconds: number) => void;
-	stop: () => void;
+	start: (initialSeconds: number) => () => void;
 } {
-	const [seconds, setSeconds] = useState(0);
-	const [timerId, setTimerId] = useState<number | undefined>(undefined);
+	const [seconds, setSeconds] = useState(1);
+	// const [timerId, setTimerId] = useState<number | undefined>(undefined);
 
-	function updateSeconds(newSeconds: number): void {
-		setSeconds(() => newSeconds);
-	}
+	const updateSeconds = (newSeconds: number): void => {
+		setSeconds(newSeconds);
+	};
 
-	function start(initialSeconds: number): void {
+	const start = (initialSeconds: number): (() => void) => {
 		updateSeconds(initialSeconds);
-		const id = startTimer(initialSeconds, updateSeconds);
-		setTimerId(() => id);
-	}
+		const timerId = startTimer(initialSeconds, updateSeconds);
 
-	function stop(): void {
-		clearInterval(timerId);
-		updateSeconds(0);
-	}
+		const stop = () => {
+			clearInterval(timerId);
+			updateSeconds(0);
+		};
 
-	return { seconds, start, stop };
+		return stop;
+	};
+
+	return { seconds, start };
 }

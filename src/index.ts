@@ -1,6 +1,11 @@
+if (process.env.NODE_ENV !== 'production') {
+	// use preact's devtools
+	// eslint-disable-next-line global-require
+	require('preact/debug');
+}
+
 import { render, h } from 'preact';
 import { setPragma } from 'goober';
-
 import { App } from './app';
 
 setPragma(h);
@@ -36,8 +41,5 @@ initializeApp();
 
 // For hot-reloading in dev mode
 if (process.env.NODE_ENV !== 'production' && ((module as unknown) as NodeModule).hot) {
-	// use preact's devtools
-	// eslint-disable-next-line global-require
-	require('preact/debug');
 	((module as unknown) as NodeModule).hot.accept('./app', initializeApp);
 }

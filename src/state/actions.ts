@@ -1,5 +1,5 @@
 import { ActionFn } from 'unistore';
-import { State } from '.';
+import { State } from './store';
 
 export const setPomodoroDurationAction: ActionFn<State> = (
 	{ settings },
@@ -40,4 +40,8 @@ export const setSoundAction: ActionFn<State> = ({ settings }, newSoundUrl: strin
 		...settings,
 		soundUrl: newSoundUrl,
 	},
+});
+
+export const incrementPomodoroCountAction: ActionFn<State> = ({ pomodoroCount }) => ({
+	pomodoroCount: pomodoroCount + 1,
 });

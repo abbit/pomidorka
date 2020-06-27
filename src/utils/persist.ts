@@ -6,41 +6,64 @@ interface Persistable<T> {
 }
 
 export class Persist<T> implements Persistable<T> {
-	private storage = window.localStorage;
+	protected storage = window.localStorage;
 
-	constructor(
-		private name: string,
-		private defaultValue?: T,
-		private expiredAt?: number,
-	) {
+	constructor(protected name: string, protected defaultValue?: T) {
 		if (!this.has()) {
 			this.set(defaultValue);
 		}
-
-		if (this.isExpired(this.getExpireTime())) {
-			this.set(defaultValue);
-		}
-	}
-
-	private isExpired(expiredAt: number | undefined): boolean {
-		return expiredAt !== undefined && expiredAt <= Date.now();
-	}
-
-	private getExpireTime(): number | undefined {
-		const state = this.storage.getItem(this.name);
-
-		if (!state) {
-			return undefined;
-		}
-
-		const record = JSON.parse(state) as { value: T; expiredAt: number | undefined };
-
-		return record.expiredAt;
 	}
 
 	has() {
 		const state = this.storage.getItem(this.name);
 		return state !== null;
+	}
+
+	set(value: T | undefined) {
+		const state = JSON.stringify({
+			value,
+		});
+
+		this.storage.setItem(this.name, state);
+	}
+
+	get() {
+		const state = this.storage.getItem(this.name);
+
+		if (!state) {
+			return this.defaultValue;
+		}
+
+		const record = JSON.parse(state) as { value: T };
+
+		return record.value;
+	}
+
+	delete() {
+		this.storage.removeItem(this.name);
+	}
+}
+
+export class ExpiredPersist<T> extends Persist<T> {
+	constructor(name: string, protected expiredAt: number, defaultValue?: T) {
+		super(name, defaultValue);
+
+		if (this.isExpired()) {
+			this.set(defaultValue);
+		}
+	}
+
+	isExpired(): boolean {
+		console.log(this.expiredAt, Date.now());
+		return this.expiredAt <= Date.now();
+	}
+
+	updateExpireTime(expiredAt: number) {
+		this.expiredAt = expiredAt;
+
+		if (this.has()) {
+			this.set(this.get());
+		}
 	}
 
 	set(value: T | undefined) {
@@ -52,31 +75,19 @@ export class Persist<T> implements Persistable<T> {
 		this.storage.setItem(this.name, state);
 	}
 
-	updateExpireTime(expiredAt: number) {
-		this.expiredAt = expiredAt;
-
-		if (this.has()) {
-			this.set(this.get());
-		}
-	}
-
 	get() {
+		if (this.isExpired()) {
+			return this.defaultValue;
+		}
+
 		const state = this.storage.getItem(this.name);
 
 		if (!state) {
 			return this.defaultValue;
 		}
 
-		const record = JSON.parse(state) as { value: T; expiredAt: number | undefined };
+		const record = JSON.parse(state) as { value: T; expiredAt: number };
 
-		if (!this.isExpired(record.expiredAt)) {
-			return record.value;
-		} else {
-			return this.defaultValue;
-		}
-	}
-
-	delete() {
-		this.storage.removeItem(this.name);
+		return record.value;
 	}
 }

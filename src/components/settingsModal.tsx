@@ -11,8 +11,8 @@ import {
 	setPomodoroDurationAction,
 	setBreakDurationAction,
 	setSoundAction,
-} from '../store/actions';
-import { State, Settings } from '../store';
+} from '../state/actions';
+import { State, Settings } from '../state/store';
 import { playSound } from '../utils';
 import { appConfig } from '../config';
 
