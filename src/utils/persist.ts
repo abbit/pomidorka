@@ -54,7 +54,6 @@ export class ExpiredPersist<T> extends Persist<T> {
 	}
 
 	isExpired(): boolean {
-		console.log(this.expiredAt, Date.now());
 		return this.expiredAt <= Date.now();
 	}
 
