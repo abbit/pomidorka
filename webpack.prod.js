@@ -1,6 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const merge = require('webpack-merge');
+/* eslint-disable */
+
+const { merge } = require('webpack-merge');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const commonConfig = require('./webpack.common.js');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;

@@ -5,10 +5,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 import { render, h } from 'preact';
-import { setPragma } from 'goober';
+import { setup } from 'goober';
 import { App } from './app';
 
-setPragma(h);
+setup(h);
+
 declare interface NodeModule {
 	hot: {
 		accept(path?: string, callback?: () => void): void;

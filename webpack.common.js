@@ -1,5 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable */
+
 const { join, resolve } = require('path');
 const { CleanWebpackPlugin: CleanPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');

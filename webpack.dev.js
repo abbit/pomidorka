@@ -1,7 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable */
+
 const { join } = require('path');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const webpack = require('webpack');
 const commonConfig = require('./webpack.common.js');
 const WorkboxPlugin = require('workbox-webpack-plugin');
