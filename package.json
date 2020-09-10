@@ -12,7 +12,8 @@
 	"scripts": {
 		"build": "webpack --config webpack.prod.js",
 		"dev": "webpack-dev-server --open --config webpack.dev.js",
-		"lint": "eslint src --ext .ts,.tsx"
+		"lint": "eslint src --ext .ts,.tsx",
+		"deploy": "npm run build && npx firebase deploy --only hosting:pomidorka"
 	},
 	"browserslist": [
 		"last 10 version",
