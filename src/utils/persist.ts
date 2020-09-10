@@ -5,13 +5,34 @@ interface Persistable<T> {
 	delete(): void;
 }
 
-export class Persist<T> implements Persistable<T> {
-	protected storage = window.localStorage;
+interface State<T> {
+	value: T;
+}
+interface ExpiredState<T> extends State<T> {
+	expiredAt: number;
+}
 
-	constructor(protected name: string, protected defaultValue?: T) {
+export class Persist<T> implements Persistable<T> {
+	private storage = window.localStorage;
+
+	constructor(private name: string, private defaultValue?: T) {
 		if (!this.has()) {
-			this.set(defaultValue);
+			this.setWithDefaultValue();
 		}
+	}
+
+	private parseState = (state: string): State<T> => JSON.parse(state);
+
+	private getState(): State<T> | undefined {
+		const state = this.storage.getItem(this.name);
+
+		if (!state) {
+			return undefined;
+		}
+
+		const parsedState = this.parseState(state);
+
+		return parsedState;
 	}
 
 	has() {
@@ -27,16 +48,18 @@ export class Persist<T> implements Persistable<T> {
 		this.storage.setItem(this.name, state);
 	}
 
+	setWithDefaultValue() {
+		this.set(this.defaultValue);
+	}
+
 	get() {
-		const state = this.storage.getItem(this.name);
+		const state = this.getState();
 
 		if (!state) {
 			return this.defaultValue;
 		}
 
-		const record = JSON.parse(state) as { value: T };
-
-		return record.value;
+		return state.value;
 	}
 
 	delete() {
@@ -44,17 +67,37 @@ export class Persist<T> implements Persistable<T> {
 	}
 }
 
-export class ExpiredPersist<T> extends Persist<T> {
-	constructor(name: string, protected expiredAt: number, defaultValue?: T) {
-		super(name, defaultValue);
+export class ExpiredPersist<T> implements Persistable<T> {
+	private storage = window.localStorage;
 
-		if (this.isExpired()) {
-			this.set(defaultValue);
+	constructor(private name: string, private expiredAt: number, private defaultValue?: T) {
+		if (!this.has() || this.isExpired()) {
+			this.setWithDefaultValue();
 		}
 	}
 
+	private parseState = (state: string): ExpiredState<T> => JSON.parse(state);
+
+	private getState(): ExpiredState<T> | undefined {
+		const state = this.storage.getItem(this.name);
+
+		if (!state) {
+			return undefined;
+		}
+
+		const parsedState = this.parseState(state);
+
+		return parsedState;
+	}
+
 	isExpired(): boolean {
-		return this.expiredAt <= Date.now();
+		const state = this.getState();
+
+		if (!state) {
+			return false;
+		}
+
+		return state.expiredAt <= Date.now();
 	}
 
 	updateExpireTime(expiredAt: number) {
@@ -74,19 +117,30 @@ export class ExpiredPersist<T> extends Persist<T> {
 		this.storage.setItem(this.name, state);
 	}
 
+	setWithDefaultValue() {
+		this.set(this.defaultValue);
+	}
+
 	get() {
 		if (this.isExpired()) {
 			return this.defaultValue;
 		}
 
-		const state = this.storage.getItem(this.name);
+		const state = this.getState();
 
 		if (!state) {
 			return this.defaultValue;
 		}
 
-		const record = JSON.parse(state) as { value: T; expiredAt: number };
+		return state.value;
+	}
 
-		return record.value;
+	has() {
+		const state = this.storage.getItem(this.name);
+		return state !== null;
+	}
+
+	delete() {
+		this.storage.removeItem(this.name);
 	}
 }

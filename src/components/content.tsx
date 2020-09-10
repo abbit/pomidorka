@@ -1,21 +1,11 @@
 import { h, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
-import { useMachine } from 'preact-robot';
-import { useSelector, useAction } from '@preact-hooks/unistore';
-import { playSound } from '../utils';
-import { sendNotification } from '../utils/notifications';
-import {
-	pomodoroMachine,
-	PomodoroMachineEvent,
-	PomodoroMachineState,
-} from '../state/pomodoroFSM';
-import { analytics } from '../config/firebase';
 import { Mascot } from './mascot';
 import { Timer } from './timer';
 import { Button, ButtonStyle } from './button';
-import { State } from '../state/store';
-import { incrementPomodoroCountAction } from '../state/actions';
 import { PomodorosCounter } from './pomodorosCounter';
+import { usePomodoroFSM } from '../hooks/usePomodoroFSM';
+import { PomodoroMachineState } from '../state/pomodoroFSM';
 
 const Container = styled('div')`
 	display: grid;
@@ -49,74 +39,18 @@ const CenterBottomAreaContainer = styled('div')`
 	align-items: center;
 `;
 
-interface Selected {
-	pomodoroDurationMins: number;
-	breakDurationMins: number;
-	soundVolume: number;
-	soundUrl: string;
-}
-
-const selector = ({ settings }: State): Selected => ({
-	...settings,
-});
-
 export const Content: FunctionalComponent = () => {
-	const [currentMachine, sendMachineEvent] = useMachine(pomodoroMachine);
-
-	const { pomodoroDurationMins, breakDurationMins, soundUrl, soundVolume } = useSelector<
-		State,
-		Selected
-	>(selector);
-
-	const incrementPomodoroCount = useAction(incrementPomodoroCountAction);
-
-	const pomodoroMachineState: PomodoroMachineState = currentMachine.name;
-
-	const pomodoroDurationSecs = pomodoroDurationMins * 60;
-	const breakDurationSecs = breakDurationMins * 60;
+	const {
+		pomodoroMachineState,
+		getInitialSeconds,
+		getCallback,
+		getOnClickFunc,
+	} = usePomodoroFSM();
 
 	const mascotMessage =
 		pomodoroMachineState === PomodoroMachineState.StartPomodoro
 			? "It's time to work!"
 			: "It's time to take a break!";
-
-	const sendEvent = (event: string) => {
-		sendMachineEvent(event);
-		analytics.logEvent(event);
-	};
-
-	const playCompleteSound = () => {
-		playSound(soundUrl, soundVolume);
-	};
-
-	const finishPomodoro = () => {
-		sendEvent(PomodoroMachineEvent.DonePomodoro);
-		incrementPomodoroCount();
-		playCompleteSound();
-		sendNotification('Done! Its time to take a break!');
-	};
-
-	const finishBreak = () => {
-		sendEvent(PomodoroMachineEvent.DoneBreak);
-		playCompleteSound();
-		sendNotification('Its time to work!');
-	};
-
-	const startPomodoro = () => {
-		sendEvent(PomodoroMachineEvent.StartPomodoro);
-	};
-
-	const cancelPomodoro = () => {
-		sendEvent(PomodoroMachineEvent.CancelPomodoro);
-	};
-
-	const startBreak = () => {
-		sendEvent(PomodoroMachineEvent.StartBreak);
-	};
-
-	const cancelBreak = () => {
-		sendEvent(PomodoroMachineEvent.CancelBreak);
-	};
 
 	const getButtonText = (state: PomodoroMachineState): string => {
 		switch (state) {
@@ -134,53 +68,6 @@ export const Content: FunctionalComponent = () => {
 
 			default:
 				return 'Error';
-		}
-	};
-
-	const getOnClickFunc = (
-		state: PomodoroMachineState,
-	): h.JSX.MouseEventHandler<HTMLButtonElement> => {
-		switch (state) {
-			case PomodoroMachineState.ActiveBreak:
-				return cancelBreak;
-
-			case PomodoroMachineState.ActivePomodoro:
-				return cancelPomodoro;
-
-			case PomodoroMachineState.StartBreak:
-				return startBreak;
-
-			case PomodoroMachineState.StartPomodoro:
-				return startPomodoro;
-
-			default:
-				return () => {};
-		}
-	};
-
-	const getCallback = (state: PomodoroMachineState): Function => {
-		switch (state) {
-			case PomodoroMachineState.ActivePomodoro:
-				return finishPomodoro;
-
-			case PomodoroMachineState.ActiveBreak:
-				return finishBreak;
-
-			default:
-				return () => {};
-		}
-	};
-
-	const getInitialSeconds = (state: PomodoroMachineState): number => {
-		switch (state) {
-			case PomodoroMachineState.ActivePomodoro:
-				return pomodoroDurationSecs;
-
-			case PomodoroMachineState.ActiveBreak:
-				return breakDurationSecs;
-
-			default:
-				return 0;
 		}
 	};
 

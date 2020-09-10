@@ -21,10 +21,7 @@ export const setBreakDurationAction: ActionFn<State> = (
 	},
 });
 
-export const setIsSettingsOpenAction: ActionFn<State> = (
-	{ isSettingsOpen },
-	isOpen: boolean,
-) => ({
+export const setIsSettingsOpenAction: ActionFn<State> = (state, isOpen: boolean) => ({
 	isSettingsOpen: isOpen,
 });
 

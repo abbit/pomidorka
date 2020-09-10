@@ -34,9 +34,10 @@ module.exports = {
 							['@babel/preset-react', { jsxPragma: 'h' }],
 						],
 						plugins: [
+							['@babel/plugin-transform-react-jsx', { pragma: 'h' }],
 							'@babel/proposal-class-properties',
 							'@babel/proposal-object-rest-spread',
-							['transform-react-jsx', { pragma: 'h' }],
+							'@babel/plugin-transform-runtime',
 						],
 					},
 				},

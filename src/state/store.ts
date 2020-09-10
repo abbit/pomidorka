@@ -27,14 +27,20 @@ const defaultSettings: Settings = {
 	breakDurationMins: mins5,
 };
 
-const endOfDay = new Date();
-endOfDay.setHours(23, 59, 59, 999);
+const getPomodoroCountExpiredTime = () => {
+	const endOfDay = new Date();
+	endOfDay.setHours(23, 59, 59, 999);
+
+	return endOfDay.getTime();
+};
 
 const persistedSettings = new Persist<Settings>('settings', defaultSettings);
+
+const pomodoroCountDefaultValue = 0;
 const persistedPomodoroCount = new ExpiredPersist<number>(
 	'pomodoroCount',
-	endOfDay.getTime(),
-	0,
+	getPomodoroCountExpiredTime(),
+	pomodoroCountDefaultValue,
 );
 
 const settings = persistedSettings.get()!;
@@ -51,7 +57,7 @@ export const store =
 		? createStore<State>(initialState)
 		: devtools(createStore<State>(initialState));
 
-store.subscribe(({ settings }) => {
+const persistSettings = ({ settings }: State) => {
 	const settingsSaved = persistedSettings.get();
 	if (!settingsSaved) {
 		return;
@@ -60,15 +66,25 @@ store.subscribe(({ settings }) => {
 	if (!isObjectsEqual(settings, settingsSaved)) {
 		persistedSettings.set(settings);
 	}
-});
+};
+store.subscribe(persistSettings);
 
-store.subscribe(({ pomodoroCount }) => {
+const persistPomodoroCount = ({ pomodoroCount }: State) => {
 	const pomodoroCountSaved = persistedPomodoroCount.get();
 	if (pomodoroCountSaved === undefined) {
 		return;
 	}
 
 	if (pomodoroCount !== pomodoroCountSaved) {
-		persistedPomodoroCount.set(pomodoroCount);
+		if (persistedPomodoroCount.isExpired()) {
+			const updatedDefaultValue = pomodoroCountDefaultValue + 1;
+
+			persistedPomodoroCount.updateExpireTime(getPomodoroCountExpiredTime());
+			persistedPomodoroCount.set(updatedDefaultValue);
+			store.setState({ pomodoroCount: updatedDefaultValue });
+		} else {
+			persistedPomodoroCount.set(pomodoroCount);
+		}
 	}
-});
+};
+store.subscribe(persistPomodoroCount);
