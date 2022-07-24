@@ -7,7 +7,6 @@ import {
 	PomodoroMachineEvent,
 	PomodoroMachineState,
 } from '../state/pomodoroFSM';
-import { analytics } from '../config/firebase';
 import { State } from '../state/store';
 import { incrementPomodoroCountAction } from '../state/actions';
 import { useCompleteSound } from './useCompleteSound';
@@ -42,7 +41,6 @@ export function usePomodoroFSM() {
 
 	const sendEvent = (event: string) => {
 		sendMachineEvent(event);
-		analytics.logEvent(event);
 	};
 
 	const finishPomodoro = () => {

@@ -13,7 +13,7 @@
 		"build": "webpack --config webpack.prod.js",
 		"dev": "webpack-dev-server --open --config webpack.dev.js",
 		"lint": "eslint src --ext .ts,.tsx",
-		"deploy": "npm run build && npx firebase deploy --only hosting:pomidorka"
+		"deploy": "npm run build"
 	},
 	"browserslist": [
 		"last 10 version",
@@ -24,7 +24,6 @@
 	"dependencies": {
 		"@babel/runtime": "^7.11.2",
 		"@preact-hooks/unistore": "^1.1.2",
-		"firebase": "^7.19.1",
 		"goober": "^2.0.5",
 		"preact": "^10.4.8",
 		"preact-robot": "^0.2.3",
