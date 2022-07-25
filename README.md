@@ -1,5 +1,5 @@
 <h1>
-  <a href="https://pomidorka.web.app/">
+  <a href="https://pomidorka.netlify.app">
     Pomidorka 🍅
   </a>
 </h1>
