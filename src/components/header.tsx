@@ -1,5 +1,6 @@
-import { h, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
+import { FunctionalComponent } from 'preact';
+
 import { SettingsButton } from './settingsButton';
 
 const HeaderContainer = styled('header')`
@@ -53,7 +54,7 @@ export const Header: FunctionalComponent = () => {
 	return (
 		<HeaderContainer>
 			<HeaderGrid>
-				<AlignLeft></AlignLeft>
+				<AlignLeft />
 				<Title>Pomidorka</Title>
 				<AlignRight>
 					<SettingsButton />

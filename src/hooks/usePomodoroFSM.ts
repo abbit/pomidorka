@@ -1,14 +1,15 @@
+import { useAction, useSelector } from '@preact-hooks/unistore';
 import { JSX } from 'preact';
 import { useMachine } from 'preact-robot';
-import { useSelector, useAction } from '@preact-hooks/unistore';
-import { sendNotification } from '../utils/notifications';
+
+import { incrementPomodoroCountAction } from '../state/actions';
 import {
 	pomodoroMachine,
 	PomodoroMachineEvent,
 	PomodoroMachineState,
 } from '../state/pomodoroFSM';
 import { State } from '../state/store';
-import { incrementPomodoroCountAction } from '../state/actions';
+import { sendNotification } from '../utils/notifications';
 import { useCompleteSound } from './useCompleteSound';
 
 interface Selected {
@@ -87,13 +88,10 @@ export function usePomodoroFSM() {
 
 			case PomodoroMachineState.StartPomodoro:
 				return startPomodoro;
-
-			default:
-				return () => {};
 		}
 	};
 
-	const getCallback = (state: PomodoroMachineState): Function => {
+	const getCallback = (state: PomodoroMachineState): VoidFunction => {
 		switch (state) {
 			case PomodoroMachineState.ActivePomodoro:
 				return finishPomodoro;
@@ -102,7 +100,9 @@ export function usePomodoroFSM() {
 				return finishBreak;
 
 			default:
-				return () => {};
+				return () => {
+					console.error('unexpected state value in getCallback');
+				};
 		}
 	};
 

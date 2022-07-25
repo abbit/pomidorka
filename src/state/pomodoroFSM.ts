@@ -16,7 +16,7 @@ export enum PomodoroMachineState {
 	ActiveBreak = 'ActiveBreak',
 }
 
-export const pomodoroMachine = createMachine<typeof PomodoroMachineState, {}>({
+export const pomodoroMachine = createMachine<typeof PomodoroMachineState>({
 	StartPomodoro: state(
 		transition(PomodoroMachineEvent.StartPomodoro, PomodoroMachineState.ActivePomodoro),
 	),

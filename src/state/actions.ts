@@ -1,4 +1,5 @@
 import { ActionFn } from 'unistore';
+
 import { State } from './store';
 
 export const setPomodoroDurationAction: ActionFn<State> = (

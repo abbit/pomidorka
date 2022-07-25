@@ -1,7 +1,7 @@
-import { h, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
+import { FunctionalComponent } from 'preact';
 
-const StyledInput = styled<h.JSX.HTMLAttributes<HTMLInputElement>>('input')`
+const StyledInput = styled('input')`
 	border: 2px solid var(--black);
 	box-shadow: none;
 	margin: 0;
@@ -24,9 +24,8 @@ const StyledInput = styled<h.JSX.HTMLAttributes<HTMLInputElement>>('input')`
 	}
 `;
 
-interface InputProps extends h.JSX.HTMLAttributes<HTMLInputElement> {
+interface InputProps extends JSX.HTMLAttributes<HTMLInputElement> {
 	value: number;
-	onChange: h.JSX.GenericEventHandler<HTMLInputElement>;
 }
 
 export const Input: FunctionalComponent<InputProps> = ({ value, onChange, ...props }) => {

@@ -1,22 +1,23 @@
-import { h, FunctionalComponent } from 'preact';
 import { useAction, useSelector } from '@preact-hooks/unistore';
 import { styled } from 'goober';
+import { FunctionalComponent } from 'preact';
+
 import { Button } from '../components/button';
-import { Slider } from '../components/slider';
 import { Input } from '../components/input';
 import { Select, SelectOption } from '../components/select';
-import {
-	setIsSettingsOpenAction,
-	setSoundVolumeAction,
-	setPomodoroDurationAction,
-	setBreakDurationAction,
-	setSoundAction,
-} from '../state/actions';
-import { State, Settings } from '../state/store';
-import { playSound } from '../utils';
+import { Slider } from '../components/slider';
 import { appConfig } from '../config';
+import {
+	setBreakDurationAction,
+	setIsSettingsOpenAction,
+	setPomodoroDurationAction,
+	setSoundAction,
+	setSoundVolumeAction,
+} from '../state/actions';
+import { Settings, State } from '../state/store';
+import { playSound } from '../utils';
 
-const Overlay = styled<h.JSX.HTMLAttributes<HTMLDivElement>>('div')`
+const Overlay = styled('div')`
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -144,13 +145,13 @@ export const SettingsModal: FunctionalComponent = () => {
 		},
 	];
 
-	const closeSettings: h.JSX.GenericEventHandler<HTMLButtonElement> = (e) => {
+	const closeSettings: JSX.GenericEventHandler<HTMLButtonElement> = (e) => {
 		e.preventDefault();
 
 		setIsSettingsOpen(false);
 	};
 
-	const closeSettingsByOverlay: h.JSX.GenericEventHandler<HTMLDivElement> = (e) => {
+	const closeSettingsByOverlay: JSX.GenericEventHandler<HTMLDivElement> = (e) => {
 		e.preventDefault();
 
 		if ((e.target as HTMLElement).id === 'overlay') {
@@ -158,7 +159,7 @@ export const SettingsModal: FunctionalComponent = () => {
 		}
 	};
 
-	const onVolumeChange: h.JSX.GenericEventHandler<HTMLInputElement> = (e) => {
+	const onVolumeChange: JSX.GenericEventHandler<HTMLInputElement> = (e) => {
 		e.preventDefault();
 
 		const newVolume = e.currentTarget.valueAsNumber;
@@ -167,7 +168,7 @@ export const SettingsModal: FunctionalComponent = () => {
 		playSound(settings.soundUrl, newVolume);
 	};
 
-	const onSoundChange: h.JSX.GenericEventHandler<HTMLSelectElement> = (e) => {
+	const onSoundChange: JSX.GenericEventHandler<HTMLSelectElement> = (e) => {
 		e.preventDefault();
 
 		const newSound = e.currentTarget.value;
@@ -176,13 +177,13 @@ export const SettingsModal: FunctionalComponent = () => {
 		playSound(newSound, settings.soundVolume);
 	};
 
-	const onPomodoroDurationChange: h.JSX.GenericEventHandler<HTMLInputElement> = (e) => {
+	const onPomodoroDurationChange: JSX.GenericEventHandler<HTMLInputElement> = (e) => {
 		e.preventDefault();
 
 		setPomodoroDuration(e.currentTarget.valueAsNumber);
 	};
 
-	const onBreakDurationChange: h.JSX.GenericEventHandler<HTMLInputElement> = (e) => {
+	const onBreakDurationChange: JSX.GenericEventHandler<HTMLInputElement> = (e) => {
 		e.preventDefault();
 
 		setBreakDuration(e.currentTarget.valueAsNumber);

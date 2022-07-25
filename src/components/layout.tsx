@@ -1,7 +1,8 @@
-import { h, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
-import { Header } from './header';
+import { FunctionalComponent } from 'preact';
+
 import { Content } from './content';
+import { Header } from './header';
 
 const Container = styled('div')`
 	width: 100vw;

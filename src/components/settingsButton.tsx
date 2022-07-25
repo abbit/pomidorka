@@ -1,10 +1,11 @@
-import { h, FunctionalComponent } from 'preact';
 import { useAction } from '@preact-hooks/unistore';
 import { styled } from 'goober';
-import { setIsSettingsOpenAction } from '../state/actions';
-import { icons } from '../icons';
+import { FunctionalComponent } from 'preact';
 
-const Icon = styled<h.JSX.HTMLAttributes<HTMLImageElement>>('img')`
+import { icons } from '../icons';
+import { setIsSettingsOpenAction } from '../state/actions';
+
+const Icon = styled('img')`
 	width: 32px;
 	height: 32px;
 	filter: invert(1);

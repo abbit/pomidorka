@@ -1,5 +1,6 @@
-import { h, FunctionalComponent } from 'preact';
 import { useSelector } from '@preact-hooks/unistore';
+import { FunctionalComponent } from 'preact';
+
 import { State } from '../state/store';
 
 interface Selected {

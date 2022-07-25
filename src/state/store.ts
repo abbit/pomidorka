@@ -1,8 +1,8 @@
 import createStore from 'unistore';
-import devtools from 'unistore/devtools';
-import { Persist, ExpiredPersist } from '../utils/persist';
-import { isObjectsEqual } from '../utils';
+
 import { appConfig } from '../config';
+import { isObjectsEqual } from '../utils';
+import { ExpiredPersist, Persist } from '../utils/persist';
 
 export interface Settings {
 	soundVolume: number;
@@ -26,15 +26,13 @@ const defaultSettings: Settings = {
 	pomodoroDurationMins: mins25,
 	breakDurationMins: mins5,
 };
+const persistedSettings = new Persist<Settings>('settings', defaultSettings);
 
 const getPomodoroCountExpiredTime = () => {
 	const endOfDay = new Date();
 	endOfDay.setHours(23, 59, 59, 999);
-
 	return endOfDay.getTime();
 };
-
-const persistedSettings = new Persist<Settings>('settings', defaultSettings);
 
 const pomodoroCountDefaultValue = 0;
 const persistedPomodoroCount = new ExpiredPersist<number>(
@@ -43,8 +41,8 @@ const persistedPomodoroCount = new ExpiredPersist<number>(
 	pomodoroCountDefaultValue,
 );
 
-const settings = persistedSettings.get()!;
-const pomodoroCount = persistedPomodoroCount.get()!;
+const settings = persistedSettings.get()!; // couldn't be undefined because default value is set
+const pomodoroCount = persistedPomodoroCount.get()!; // couldn't be undefined because default value is set;
 
 const initialState: State = {
 	settings,
@@ -52,10 +50,7 @@ const initialState: State = {
 	isSettingsOpen: false,
 };
 
-export const store =
-	process.env.NODE_ENV === 'production'
-		? createStore<State>(initialState)
-		: devtools(createStore<State>(initialState));
+export const store = createStore<State>(initialState);
 
 const persistSettings = ({ settings }: State) => {
 	const settingsSaved = persistedSettings.get();

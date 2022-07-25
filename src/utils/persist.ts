@@ -70,7 +70,11 @@ export class Persist<T> implements Persistable<T> {
 export class ExpiredPersist<T> implements Persistable<T> {
 	private storage = window.localStorage;
 
-	constructor(private name: string, private expiredAt: number, private defaultValue?: T) {
+	constructor(
+		private name: string,
+		private expiredAt: number,
+		private defaultValue: T | undefined = undefined,
+	) {
 		if (!this.has() || this.isExpired()) {
 			this.setWithDefaultValue();
 		}

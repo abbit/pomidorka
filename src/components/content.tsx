@@ -1,11 +1,12 @@
-import { h, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
-import { Mascot } from './mascot';
-import { Timer } from './timer';
-import { Button, ButtonStyle } from './button';
-import { PomodorosCounter } from './pomodorosCounter';
+import { FunctionalComponent } from 'preact';
+
 import { usePomodoroFSM } from '../hooks/usePomodoroFSM';
 import { PomodoroMachineState } from '../state/pomodoroFSM';
+import { Button, ButtonStyle } from './button';
+import { Mascot } from './mascot';
+import { PomodorosCounter } from './pomodorosCounter';
+import { Timer } from './timer';
 
 const Container = styled('div')`
 	display: grid;
@@ -40,12 +41,8 @@ const CenterBottomAreaContainer = styled('div')`
 `;
 
 export const Content: FunctionalComponent = () => {
-	const {
-		pomodoroMachineState,
-		getInitialSeconds,
-		getCallback,
-		getOnClickFunc,
-	} = usePomodoroFSM();
+	const { pomodoroMachineState, getInitialSeconds, getCallback, getOnClickFunc } =
+		usePomodoroFSM();
 
 	const mascotMessage =
 		pomodoroMachineState === PomodoroMachineState.StartPomodoro

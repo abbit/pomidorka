@@ -1,8 +1,9 @@
-import { h, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
+import { FunctionalComponent } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
+
 import { useTimer } from '../hooks/useTimer';
 import { formatTime } from '../utils/time';
-import { useEffect, useState } from 'preact/hooks';
 
 const TimerText = styled('div')`
 	font-size: 5rem;
@@ -11,7 +12,7 @@ const TimerText = styled('div')`
 
 interface TimerProps {
 	initialSeconds: number;
-	callback?: Function;
+	callback?: VoidFunction;
 }
 
 export const Timer: FunctionalComponent<TimerProps> = ({ initialSeconds, callback }) => {

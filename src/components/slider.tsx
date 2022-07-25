@@ -1,5 +1,5 @@
-import { h, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
+import { FunctionalComponent } from 'preact';
 
 const thumbHeight = 16;
 const thumbWidth = 16;
@@ -8,7 +8,7 @@ const thumbBorderRadius = 15;
 const trackHeight = 8;
 const trackBorderRadius = 25;
 
-const InputRange = styled<h.JSX.HTMLAttributes<HTMLInputElement>>('input')`
+const InputRange = styled('input')`
 	-webkit-appearance: none;
 	width: 100%;
 	margin: ${trackHeight / 2}px 0;
@@ -106,7 +106,7 @@ const InputRange = styled<h.JSX.HTMLAttributes<HTMLInputElement>>('input')`
 	}
 `;
 
-interface SliderProps extends h.JSX.HTMLAttributes<HTMLInputElement> {}
+type SliderProps = JSX.HTMLAttributes<HTMLInputElement>;
 
 export const Slider: FunctionalComponent<SliderProps> = ({ type, ...props }) => {
 	return <InputRange type="range" {...props} />;

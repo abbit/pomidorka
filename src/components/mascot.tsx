@@ -1,5 +1,6 @@
-import { h, FunctionalComponent } from 'preact';
 import { styled } from 'goober';
+import { FunctionalComponent } from 'preact';
+
 import { appConfig } from '../config';
 
 const Container = styled('div')`
@@ -45,7 +46,7 @@ const MessageBubble = styled('div')`
 	}
 `;
 
-const Img = styled<h.JSX.HTMLAttributes<HTMLImageElement>>('img')`
+const Img = styled('img')`
 	min-width: 150px;
 	width: 20%;
 	max-width: 250px;

@@ -1,8 +1,9 @@
-import { h, FunctionalComponent } from 'preact';
-import { glob as injectGlobal } from 'goober';
 import { StoreProvider } from '@preact-hooks/unistore';
+import { glob as injectGlobal } from 'goober';
+import { FunctionalComponent } from 'preact';
+
 import { Layout } from './components/layout';
-import { Timer } from './components/timer';
+import { ReloadPrompt } from './components/reloadPrompt';
 import { SettingsModal } from './components/settingsModal';
 import { store } from './state/store';
 
@@ -37,11 +38,10 @@ injectGlobal`
 	}
 `;
 
-export const App: FunctionalComponent = () => {
-	return (
-		<StoreProvider value={store}>
-			<Layout />
-			<SettingsModal />
-		</StoreProvider>
-	);
-};
+export const App: FunctionalComponent = () => (
+	<StoreProvider value={store}>
+		<Layout />
+		<SettingsModal />
+		<ReloadPrompt />
+	</StoreProvider>
+);

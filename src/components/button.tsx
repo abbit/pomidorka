@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { styled } from 'goober';
 
 export enum ButtonStyle {
@@ -6,7 +5,7 @@ export enum ButtonStyle {
 	Default = 'default',
 }
 
-interface ButtonProps extends h.JSX.HTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends JSX.HTMLAttributes<HTMLButtonElement> {
 	style?: ButtonStyle;
 }
 

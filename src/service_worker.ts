@@ -1,36 +1,30 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import * as core from 'workbox-core';
 import * as precaching from 'workbox-precaching';
+import * as routing from 'workbox-routing';
 
-declare let self: WorkboxServiceWorker;
+declare let self: ServiceWorkerGlobalScope;
 
-interface WorkboxServiceWorker extends ServiceWorkerGlobalScope {
-	__WB_MANIFEST: {
-		url: string;
-		integrity?: string;
-		revision?: string;
-	}[];
-}
-
-core.skipWaiting();
-core.clientsClaim();
-
-// eslint-disable-next-line no-underscore-dangle
-precaching.precacheAndRoute(self.__WB_MANIFEST);
-
-self.addEventListener('fetch', (event) => {
-	event.respondWith(
-		caches.match(event.request).then((response) => {
-			return response || fetch(event.request);
-		}),
-	);
+self.addEventListener('message', (event) => {
+	if (event.data && event.data.type === 'SKIP_WAITING') {
+		self.skipWaiting();
+	}
 });
+
+// self.__WB_MANIFEST is default injection point
+precaching.precacheAndRoute(self.__WB_MANIFEST);
+// cleanup old assets
+precaching.cleanupOutdatedCaches();
+// to allow work offline
+let denylist: undefined | RegExp[];
+if (import.meta.env.DEV) denylist = [/^\/manifest.webmanifest$/];
+routing.registerRoute(
+	new routing.NavigationRoute(precaching.createHandlerBoundToURL('index.html'), {
+		denylist,
+	}),
+);
 
 self.addEventListener('notificationclick', function (event) {
 	event.notification.close();
-
-	// This looks to see if the current is already open and
-	// focuses if it is
+	// This looks to see if the current is already open and focuses if it is
 	event.waitUntil(
 		self.clients
 			.matchAll({
@@ -38,16 +32,8 @@ self.addEventListener('notificationclick', function (event) {
 				includeUncontrolled: true,
 			})
 			.then((windowClients) => {
-				let matchingClient: WindowClient | undefined = undefined;
-
-				for (let i = 0; i < windowClients.length; i++) {
-					const windowClient = windowClients[i];
-					matchingClient = windowClient as WindowClient;
-					break;
-				}
-
-				if (matchingClient) {
-					return matchingClient.focus();
+				for (const windowClient of windowClients) {
+					if (windowClient) return windowClient.focus();
 				}
 			}),
 	);

@@ -1,0 +1,21 @@
+{
+    "name": "Pomidorka",
+    "short_name": "Pomidorka",
+    "description": "App that helps you to focus on tasks and manage your time",
+    "start_url": "/?homescreen=1",
+    "display": "standalone",
+    "background_color": "#fbf9fa",
+    "theme_color": "#a30f0f",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
